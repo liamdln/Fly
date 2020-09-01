@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace Fly
 {
-    public partial class form_book : Form
+    public partial class BookingForm : Form
     {
 
         //vars
@@ -30,17 +30,18 @@ namespace Fly
         string dropdown_originText;
         string dropdown_destinationText;
 
-        public form_book()
+        MenuForm menuForm;
+
+        public BookingForm(MenuForm menuForm)
         {
             InitializeComponent();
+            this.menuForm = menuForm;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            //talk to the main form
-            Menu menu = new Menu();
-            menu.Show();
-            Close();
+            this.menuForm.Show();
+            this.Close();
 
 
         }
@@ -142,7 +143,7 @@ namespace Fly
 
                     //open the new form
                     Reader.Close();
-                    listingBookingForm DBList = new listingBookingForm(connection, DateOfFlight, dropdown_origin.Text, dropdown_destination.Text, "");
+                    BookingListForm DBList = new BookingListForm(connection, DateOfFlight, dropdown_origin.Text, dropdown_destination.Text, "");
                     Hide();
                     DBList.Show();
 
@@ -153,7 +154,7 @@ namespace Fly
                     //MessageBox.Show(WinningDestination);
                     //open the new form
                     Reader.Close();
-                    listingBookingForm DBList = new listingBookingForm(connection, DateOfFlight, dropdown_origin.Text, dropdown_destination.Text, WinningDestination);
+                    BookingListForm DBList = new BookingListForm(connection, DateOfFlight, dropdown_origin.Text, dropdown_destination.Text, WinningDestination);
                     Hide();
                     DBList.Show();
 

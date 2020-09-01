@@ -1,6 +1,6 @@
 ﻿namespace Fly
 {
-    partial class form_details
+    partial class SearchTicketForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(form_details));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchTicketForm));
             this.lbl_detailsTitle = new System.Windows.Forms.Label();
             this.lbl_ticketID = new System.Windows.Forms.Label();
             this.txtBox_ticketNumber = new System.Windows.Forms.TextBox();

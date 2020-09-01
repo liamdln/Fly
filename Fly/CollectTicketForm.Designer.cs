@@ -1,6 +1,6 @@
 ﻿namespace Fly
 {
-    partial class form_collectTicker
+    partial class CollectTicketForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(form_collectTicker));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CollectTicketForm));
             this.lbl_collect_ticket = new System.Windows.Forms.Label();
             this.lbl_ticketID = new System.Windows.Forms.Label();
             this.txt_ticketID = new System.Windows.Forms.TextBox();

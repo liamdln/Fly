@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Fly
 {
-    public partial class form_collectTicker : Form
+    public partial class CollectTicketForm : Form
     {
 
         //vars
@@ -29,9 +29,12 @@ namespace Fly
         static readonly string SaltKey = "sEEs@1t!";
         static readonly string VIKey = "J0nV1nd1ct1v3009";
 
-        public form_collectTicker()
+        MenuForm menuForm;
+
+        public CollectTicketForm(MenuForm menuForm)
         {
             InitializeComponent();
+            this.menuForm = menuForm;
         }
 
         private void form_collectTicker_Load(object sender, EventArgs e)
@@ -49,8 +52,7 @@ namespace Fly
         private void btn_cancel_Click(object sender, EventArgs e)
         {
 
-            Menu menu = new Fly.Menu();
-            menu.Show();
+            this.menuForm.Show();
             Close();
 
         }
@@ -249,7 +251,7 @@ namespace Fly
                             DBConnect("", "", true, query);
 
                             MessageBox.Show("Your ticket is being printed, please take it to the check in desk to pay.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Menu menu = new Fly.Menu();
+                            MenuForm menu = new Fly.MenuForm();
                             menu.Show();
                             Close();
 

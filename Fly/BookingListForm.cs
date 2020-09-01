@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace Fly
 {
-    public partial class listingBookingForm : Form
+    public partial class BookingListForm : Form
     {
 
         //declare variables for all methods
@@ -22,10 +22,10 @@ namespace Fly
         string flightID = "";
         string seatsAvailable = "";
         string[] flightInfoArray;
-        form_book BookingForm = new form_book();
+        BookingForm BookingForm = new BookingForm(new MenuForm());
         string FlightConnections = "";
 
-        public listingBookingForm(MySqlConnection connection, string DateOfFlight, string origin, string destination, string connections)
+        public BookingListForm(MySqlConnection connection, string DateOfFlight, string origin, string destination, string connections)
         {
             InitializeComponent();
 
@@ -229,7 +229,7 @@ namespace Fly
         private void btn_book_Click(object sender, EventArgs e)
         {
 
-            form_details details = new form_details("listBookingForm", flightID, seatsAvailable, flightInfoArray);
+            SearchTicketForm details = new SearchTicketForm("listBookingForm", flightID, seatsAvailable, flightInfoArray);
             details.Show();
             Close();
 

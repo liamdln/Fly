@@ -1,6 +1,6 @@
 ﻿namespace Fly
 {
-    partial class listingBookingForm
+    partial class BookingListForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(listingBookingForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookingListForm));
             this.lbl_results = new System.Windows.Forms.Label();
             this.lbl_time = new System.Windows.Forms.Label();
             this.dropdown_times = new System.Windows.Forms.ComboBox();

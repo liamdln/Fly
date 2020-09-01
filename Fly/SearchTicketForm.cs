@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 namespace Fly
 {
 
-    public partial class form_details : Form
+    public partial class SearchTicketForm : Form
     {
 
         //variables
@@ -21,7 +21,7 @@ namespace Fly
         static readonly string SaltKey = "sEEs@1t!";
         static readonly string VIKey = "J0nV1nd1ct1v3009";
 
-        public form_details(string formSender, string flightID, string Seats, string[] flightInfoArray)
+        public SearchTicketForm(string formSender, string flightID, string Seats, string[] flightInfoArray)
         {
 
             InitializeComponent();
@@ -71,7 +71,7 @@ namespace Fly
                 updateDB("save", Encrypt(txtBox_cardNumber.Text));
 
                 MessageBox.Show("Your ticket was saved. To collect your ticket, click 'Collect Ticket' on the menu and follow the instructions.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Menu menu = new Fly.Menu();
+                MenuForm menu = new Fly.MenuForm();
                 menu.Show();
                 Close();
 
@@ -161,7 +161,7 @@ namespace Fly
                 updateDB("print", Encrypt(txtBox_cardNumber.Text));
 
                 MessageBox.Show("Your ticket is being printed, please take it to the check in desk to pay.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Menu menu = new Fly.Menu();
+                MenuForm menu = new Fly.MenuForm();
                 menu.Show();
                 Close();
 
@@ -203,7 +203,7 @@ namespace Fly
 
             //send the data to the database
             string query = "INSERT INTO tickets (ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook) VALUES ('" + txtBox_ticketNumber.Text + "', '" + txtBox_firstName.Text + "', '" + txtBox_lastName.Text + "', '" + encryptedCardNo + "', '" + collected + "', '" + flightNo + "', '" + seatsAvailable + "')";
-            form_book bookForm = new form_book();
+            BookingForm bookForm = new BookingForm(new MenuForm());
             bookForm.DBConnect("", "", true, query);
 
             int numSeats = Convert.ToInt32(seatsAvailable);
@@ -216,7 +216,7 @@ namespace Fly
         private void btn_cancel_Click(object sender, EventArgs e)
         {
 
-            Menu menu = new Fly.Menu();
+            MenuForm menu = new Fly.MenuForm();
             menu.Show();
             Close();
 
