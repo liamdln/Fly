@@ -14,9 +14,12 @@ namespace Fly
     public partial class MenuForm : Form
     {
 
-        //vars
         private bool bookClicked;
         private bool collectClicked;
+
+        //testing:
+        DBConnection connection = new DBConnection();
+        //end testing
 
         public MenuForm()
         {
@@ -128,6 +131,18 @@ namespace Fly
                 this.Hide();
 
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            Dictionary<string, string> areas = connection.GetAllAreas();
+
+            foreach (KeyValuePair<string, string> kvp in areas)
+            {
+                MessageBox.Show(String.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
+            }
+
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Fly
 
         string GetAllTickets();
         string GetAllFlights();
-        string GetAllAreas();
+        Dictionary<string, string> GetAllAreas();
         string GetAllAirlines();
 
         string GetTicketByID(int ID);

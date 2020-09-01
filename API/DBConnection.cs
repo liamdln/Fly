@@ -13,7 +13,7 @@ namespace Fly
 
         private const string DATABASE_URL = "127.0.0.1";
         private const string DATABASE_PORT = "3306";
-        private const string DATABASE_NAME = "flyStore";
+        private const string DATABASE_NAME = "flydb";
         private const string DATABASE_UID = "bahrain-api";
         private const string DATABASE_PWD = "&#7goJk#!34ep@";
 
@@ -25,7 +25,14 @@ namespace Fly
             //server=localhost;port=3306;database=BahrainAPI;uid=bahrain-api;pwd=&#7goJk#!34ep@;
             this.connectionString = String.Format("server={0};port={1};database={2};uid={3};pwd={4};", DATABASE_URL, DATABASE_PORT, DATABASE_NAME, DATABASE_UID, DATABASE_PWD);
             connection = new MySqlConnection(this.connectionString);
-            OpenConnection();
+        }
+
+        private MySqlDataReader pingDatabase(string query)
+        {
+            MySqlCommand getData = new MySqlCommand(query, this.connection);
+            MySqlDataReader incomingDataReader = getData.ExecuteReader();
+
+            return incomingDataReader;
         }
 
         private bool OpenConnection()
@@ -67,9 +74,27 @@ namespace Fly
             throw new NotImplementedException();
         }
 
-        public string GetAllAreas()
+        public Dictionary<string, string> GetAllAreas()
         {
-            throw new NotImplementedException();
+
+            OpenConnection();
+            Dictionary<string, string> areas = new Dictionary<string, string>();
+
+            //SELECT country,cities FROM areas;
+            const string DB_SELECTION = "country, cities";
+            const string DB_TABLE_NAME = "areas";
+
+            string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
+            MySqlDataReader returnedData = pingDatabase(query);
+
+            while (returnedData.Read())
+            {
+                areas.Add(returnedData["country"].ToString(), returnedData["cities"].ToString());
+            }
+
+            CloseConnection();
+            return areas;
+
         }
 
         public string GetAllFlights()

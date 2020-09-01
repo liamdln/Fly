@@ -32,6 +32,7 @@
             this.btnCollectTicket = new System.Windows.Forms.PictureBox();
             this.btnBookTicket = new System.Windows.Forms.PictureBox();
             this.picboxLogo = new System.Windows.Forms.PictureBox();
+            this.btnTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.btnCollectTicket)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnBookTicket)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxLogo)).BeginInit();
@@ -66,6 +67,16 @@
             this.picboxLogo.TabIndex = 10;
             this.picboxLogo.TabStop = false;
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(314, 70);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 13;
+            this.btnTest.Text = "test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -73,6 +84,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(645, 460);
             this.ControlBox = false;
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnCollectTicket);
             this.Controls.Add(this.btnBookTicket);
             this.Controls.Add(this.picboxLogo);
@@ -93,6 +105,7 @@
         private System.Windows.Forms.PictureBox btnCollectTicket;
         private System.Windows.Forms.PictureBox btnBookTicket;
         private System.Windows.Forms.PictureBox picboxLogo;
+        private System.Windows.Forms.Button btnTest;
     }
 }
 
