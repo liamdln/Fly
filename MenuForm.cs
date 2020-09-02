@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace Fly
 {
@@ -25,7 +18,7 @@ namespace Fly
         {
             InitializeComponent();
             //check if a button is clicked once. This is so that the text is displayed after one click
-            this.bookClicked = false; 
+            this.bookClicked = false;
             this.collectClicked = false;
         }
 
@@ -52,11 +45,12 @@ namespace Fly
             if (imageURL.ToLower().Contains("book"))
             {
                 picboxReference = btnBookTicket;
-            } 
+            }
             else if (imageURL.ToLower().Contains("collect"))
             {
                 picboxReference = btnCollectTicket;
-            } else
+            }
+            else
             {
                 picboxReference = picboxLogo;
             }
@@ -136,12 +130,20 @@ namespace Fly
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Dictionary<string, string> areas = connection.GetAllAreas();
+            /*            Dictionary<string, string> areas = connection.GetAllAreas();
 
-            foreach (KeyValuePair<string, string> kvp in areas)
-            {
-                MessageBox.Show(String.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
-            }
+                        foreach (KeyValuePair<string, string> kvp in areas)
+                        {
+                            MessageBox.Show(String.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
+                        }*/
+
+            /*            Flight flight = connection.GetFlightByID(1);
+
+                        MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", flight.flightID, flight.origin, flight.destination, flight.airline, flight.seatsAvailable, flight.price, flight.flightDateTime));*/
+
+            Ticket ticket = connection.GetTicketByID(1);
+
+            MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", ticket.ticketID, ticket.firstName, ticket.lastName, ticket.hashedCardNumber, ticket.collected, ticket.flightID, ticket.bookedSeats));
 
         }
     }

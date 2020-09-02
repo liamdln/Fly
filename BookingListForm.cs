@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace Fly
 {
@@ -89,7 +82,7 @@ namespace Fly
             lbl_date.Text = ("Date: " + flightDate);
             lbl_from.Text = ("Origin: " + selectedOrigin);
             lbl_to.Text = ("Destination: " + selectedDest);
-        
+
         }
 
         private void HideShow(string hideOrShow)
@@ -102,7 +95,8 @@ namespace Fly
                 btn_book.Text = "Please select a time to book a flight.";
                 btn_book.Enabled = false;
 
-            } else if (hideOrShow.Equals("show"))//show the controls
+            }
+            else if (hideOrShow.Equals("show"))//show the controls
             {
 
                 groupbox_flight.Show();

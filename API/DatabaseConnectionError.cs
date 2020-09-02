@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Runtime.Serialization;
 using System.Windows.Forms;
 
 namespace Fly

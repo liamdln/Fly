@@ -1,13 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace Fly
 {
@@ -98,14 +92,14 @@ namespace Fly
                     }
 
                 }
-            
+
                 //check to see if there are any flights on this date form this origin to this destination
                 if (Reader["origin"].Equals(dropdown_originText) && Reader["destination"].Equals(dropdown_destinationText) && Reader["dateOfFlight"].Equals(DateOfFlight))
                 {
 
                     //add one to the number of flights found
                     FlightFound = FlightFound + 1;
-                    
+
                 }
 
                 if (DateOfFlight.Equals(Reader["dateOfFlight"]) && killIf == false)
@@ -206,7 +200,8 @@ namespace Fly
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 Reader = cmd.ExecuteReader();
 
-            } else
+            }
+            else
             {
 
                 query = otherQuery;

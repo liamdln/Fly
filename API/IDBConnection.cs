@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Fly
 {
     interface IDBConnection
     {
 
-        string GetAllTickets();
-        string GetAllFlights();
+        Ticket GetAllTickets();
+        Flight GetAllFlights();
         Dictionary<string, string> GetAllAreas();
         string GetAllAirlines();
 
-        string GetTicketByID(int ID);
-        string GetFlightByID(int ID);
+        Ticket GetTicketByID(int ID);
+        Flight GetFlightByID(int ID);
 
         void UpdateSeatsAvailable(int flightID);
         void UpdateTicketCollectionStatus(int ticketID);

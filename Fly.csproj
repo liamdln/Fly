@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8B46D193-2EF9-4FB1-850E-FC15DF087ABA}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Fly</RootNamespace>
     <AssemblyName>Fly</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
@@ -109,6 +112,7 @@
     <Compile Include="CollectTicketForm.Designer.cs">
       <DependentUpon>CollectTicketForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\Flight.cs" />
     <Compile Include="SearchTicketForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +135,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Components\Ticket.cs" />
     <EmbeddedResource Include="BookingForm.resx">
       <DependentUpon>BookingForm.cs</DependentUpon>
     </EmbeddedResource>
