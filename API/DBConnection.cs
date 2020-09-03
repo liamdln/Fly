@@ -66,9 +66,24 @@ namespace Fly
             throw new NotImplementedException();
         }
 
-        public string GetAllAirlines()
+        public List<string> GetAllAirlines()
         {
-            throw new NotImplementedException();
+            OpenConnection();
+            List<string> airlines = new List<string>();
+
+            const string DB_SELECTION = "name";
+            const string DB_TABLE_NAME = "airlines";
+
+            string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
+            MySqlDataReader returnedData = pingDatabase(query);
+
+            while (returnedData.Read())
+            {
+                airlines.Add((string)returnedData["name"]);
+            }
+
+            CloseConnection();
+            return airlines;
         }
 
         public Dictionary<string, string> GetAllAreas()
@@ -77,7 +92,6 @@ namespace Fly
             OpenConnection();
             Dictionary<string, string> areas = new Dictionary<string, string>();
 
-            //SELECT country,cities FROM areas;
             const string DB_SELECTION = "country, cities";
             const string DB_TABLE_NAME = "areas";
 
@@ -94,14 +108,61 @@ namespace Fly
 
         }
 
-        public Flight GetAllFlights()
+        public List<Flight> GetAllFlights()
         {
-            throw new NotImplementedException();
+            OpenConnection();
+            List<Flight> flights = new List<Flight>();
+
+            const string DB_SELECTION = "flightID, origin, destination, airline, seatsAvailable, price, dateTime";
+            const string DB_TABLE_NAME = "flights";
+
+            string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
+            MySqlDataReader returnedData = pingDatabase(query);
+
+            while (returnedData.Read())
+            {
+
+                flights.Add(new Flight(
+                    (int)returnedData["flightID"],
+                    (string)returnedData["origin"],
+                    (string)returnedData["destination"],
+                    (string)returnedData["airline"],
+                    (int)returnedData["seatsAvailable"],
+                    (double)returnedData["price"],
+                    (DateTime)returnedData["dateTime"]
+                    ));
+            }
+
+            CloseConnection();
+            return flights;
         }
 
-        public Ticket GetAllTickets()
+        public List<Ticket> GetAllTickets()
         {
-            throw new NotImplementedException();
+            OpenConnection();
+            List<Ticket> tickets = new List<Ticket>();
+
+            const string DB_SELECTION = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
+            const string DB_TABLE_NAME = "tickets";
+
+            string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
+            MySqlDataReader returnedData = pingDatabase(query);
+
+            while (returnedData.Read())
+            {
+                tickets.Add(new Ticket(
+                    (int)returnedData["ticketID"],
+                    (string)returnedData["firstName"],
+                    (string)returnedData["lastName"],
+                    (string)returnedData["cardNumber"],
+                    (int)returnedData["collected"] == 1, //1 = true, 0 = false so if db val = 1 then it has been collected.
+                    (int)returnedData["flightID"],
+                    (int)returnedData["seatsOnBook"]
+                    ));
+            }
+
+            CloseConnection();
+            return tickets;
         }
 
         public Flight GetFlightByID(int ID)
@@ -109,7 +170,6 @@ namespace Fly
             OpenConnection();
             Flight flightByID = null;
 
-            //SELECT * FROM flights WHERE flightID = ID;
             const string DB_SELECTION = "flightID, origin, destination, airline, seatsAvailable, price, dateTime";
             const string DB_TABLE_NAME = "flights";
             string DB_WHERE_CONDITION = String.Format("flightID = {0}", ID);
@@ -141,7 +201,6 @@ namespace Fly
             OpenConnection();
             Ticket ticketByID = null;
 
-            //SELECT * FROM flights WHERE flightID = ID;
             const string DB_SELECTION = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
             const string DB_TABLE_NAME = "tickets";
             string DB_WHERE_CONDITION = String.Format("ticketID = {0}", ID);
@@ -174,6 +233,36 @@ namespace Fly
         public void UpdateTicketCollectionStatus(int ticketID)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Flight> GetMatchingFlights(string origin, string destination, DateTime date)
+        {
+            OpenConnection();
+            List<Flight> flights = new List<Flight>();
+
+            const string DB_SELECTION = "flightID, origin, destination, airline, seatsAvailable, price, dateTime";
+            const string DB_TABLE_NAME = "flights";
+            string DB_WHERE_CONDITION = String.Format("origin='{0}' AND destination='{1}' AND CAST(dateTime AS DATE) = '{2}'", origin, destination, date.ToString("yyyy-MM-dd"));
+
+            string query = String.Format("SELECT {0} FROM {1} WHERE {2}", DB_SELECTION, DB_TABLE_NAME, DB_WHERE_CONDITION);
+            MySqlDataReader returnedData = pingDatabase(query);
+
+            while (returnedData.Read())
+            {
+
+                flights.Add(new Flight(
+                    (int)returnedData["flightID"],
+                    (string)returnedData["origin"],
+                    (string)returnedData["destination"],
+                    (string)returnedData["airline"],
+                    (int)returnedData["seatsAvailable"],
+                    (double)returnedData["price"],
+                    (DateTime)returnedData["dateTime"]
+                    ));
+            }
+
+            CloseConnection();
+            return flights;
         }
     }
 }

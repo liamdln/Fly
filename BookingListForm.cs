@@ -118,7 +118,7 @@ namespace Fly
             string query = ("SELECT * FROM flights");
 
             //connect to db
-            BookingForm.DBConnect("*", "flights", false, "");
+/*            BookingForm.DBConnect("*", "flights", false, "");*/
 
             //declare reader
             MySqlCommand cmd = new MySqlCommand(query, connectionString);

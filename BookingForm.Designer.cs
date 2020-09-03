@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookingForm));
             this.lbl_book = new System.Windows.Forms.Label();
-            this.dropdown_destination = new System.Windows.Forms.ComboBox();
+            this.DestinationDropDown = new System.Windows.Forms.ComboBox();
             this.lbl_destination = new System.Windows.Forms.Label();
             this.lbl_origin = new System.Windows.Forms.Label();
-            this.dropdown_origin = new System.Windows.Forms.ComboBox();
+            this.OriginDropDown = new System.Windows.Forms.ComboBox();
             this.lbl_ast = new System.Windows.Forms.Label();
             this.btn_search = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
@@ -52,15 +52,16 @@
             this.lbl_book.TabIndex = 0;
             this.lbl_book.Text = "Book a flight";
             // 
-            // dropdown_destination
+            // DestinationDropDown
             // 
-            this.dropdown_destination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dropdown_destination.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dropdown_destination.FormattingEnabled = true;
-            this.dropdown_destination.Location = new System.Drawing.Point(12, 156);
-            this.dropdown_destination.Name = "dropdown_destination";
-            this.dropdown_destination.Size = new System.Drawing.Size(226, 28);
-            this.dropdown_destination.TabIndex = 1;
+            this.DestinationDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DestinationDropDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DestinationDropDown.FormattingEnabled = true;
+            this.DestinationDropDown.Location = new System.Drawing.Point(12, 156);
+            this.DestinationDropDown.Name = "DestinationDropDown";
+            this.DestinationDropDown.Size = new System.Drawing.Size(226, 28);
+            this.DestinationDropDown.TabIndex = 1;
+            this.DestinationDropDown.SelectedIndexChanged += new System.EventHandler(this.DestinationDropDown_SelectedIndexChanged);
             // 
             // lbl_destination
             // 
@@ -84,15 +85,16 @@
             this.lbl_origin.TabIndex = 3;
             this.lbl_origin.Text = "*Select origin:";
             // 
-            // dropdown_origin
+            // OriginDropDown
             // 
-            this.dropdown_origin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dropdown_origin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dropdown_origin.FormattingEnabled = true;
-            this.dropdown_origin.Location = new System.Drawing.Point(12, 98);
-            this.dropdown_origin.Name = "dropdown_origin";
-            this.dropdown_origin.Size = new System.Drawing.Size(226, 28);
-            this.dropdown_origin.TabIndex = 4;
+            this.OriginDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.OriginDropDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OriginDropDown.FormattingEnabled = true;
+            this.OriginDropDown.Location = new System.Drawing.Point(12, 98);
+            this.OriginDropDown.Name = "OriginDropDown";
+            this.OriginDropDown.Size = new System.Drawing.Size(226, 28);
+            this.OriginDropDown.TabIndex = 4;
+            this.OriginDropDown.SelectedIndexChanged += new System.EventHandler(this.OriginDropDown_SelectedIndexChanged);
             // 
             // lbl_ast
             // 
@@ -153,7 +155,7 @@
             this.flightDate.Size = new System.Drawing.Size(222, 26);
             this.flightDate.TabIndex = 13;
             // 
-            // form_book
+            // BookingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -165,14 +167,14 @@
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_search);
             this.Controls.Add(this.lbl_ast);
-            this.Controls.Add(this.dropdown_origin);
+            this.Controls.Add(this.OriginDropDown);
             this.Controls.Add(this.lbl_origin);
             this.Controls.Add(this.lbl_destination);
-            this.Controls.Add(this.dropdown_destination);
+            this.Controls.Add(this.DestinationDropDown);
             this.Controls.Add(this.lbl_book);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "form_book";
+            this.Name = "BookingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.form_book_Load);
             this.ResumeLayout(false);
@@ -183,10 +185,10 @@
         #endregion
 
         private System.Windows.Forms.Label lbl_book;
-        private System.Windows.Forms.ComboBox dropdown_destination;
+        private System.Windows.Forms.ComboBox DestinationDropDown;
         private System.Windows.Forms.Label lbl_destination;
         private System.Windows.Forms.Label lbl_origin;
-        private System.Windows.Forms.ComboBox dropdown_origin;
+        private System.Windows.Forms.ComboBox OriginDropDown;
         private System.Windows.Forms.Label lbl_ast;
         private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.Button btn_cancel;

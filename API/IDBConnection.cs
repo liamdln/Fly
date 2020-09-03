@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Fly
 {
     interface IDBConnection
     {
 
-        Ticket GetAllTickets();
-        Flight GetAllFlights();
+        List<Ticket> GetAllTickets();
+        List<Flight> GetAllFlights();
         Dictionary<string, string> GetAllAreas();
-        string GetAllAirlines();
+        List<string> GetAllAirlines();
+
+        List<Flight> GetMatchingFlights(string origin, string destination, DateTime date);
 
         Ticket GetTicketByID(int ID);
         Flight GetFlightByID(int ID);

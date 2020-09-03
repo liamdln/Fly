@@ -10,10 +10,6 @@ namespace Fly
         private bool bookClicked;
         private bool collectClicked;
 
-        //testing:
-        DBConnection connection = new DBConnection();
-        //end testing
-
         public MenuForm()
         {
             InitializeComponent();
@@ -126,25 +122,49 @@ namespace Fly
 
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            /*            Dictionary<string, string> areas = connection.GetAllAreas();
-
-                        foreach (KeyValuePair<string, string> kvp in areas)
-                        {
-                            MessageBox.Show(String.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
-                        }*/
-
-            /*            Flight flight = connection.GetFlightByID(1);
-
-                        MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", flight.flightID, flight.origin, flight.destination, flight.airline, flight.seatsAvailable, flight.price, flight.flightDateTime));*/
-
-            Ticket ticket = connection.GetTicketByID(1);
-
-            MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", ticket.ticketID, ticket.firstName, ticket.lastName, ticket.hashedCardNumber, ticket.collected, ticket.flightID, ticket.bookedSeats));
-
-        }
     }
 }
+
+
+// TESTING =====================================================================================================
+
+// DBConnection connection = new DBConnection();
+
+/*private void button1_Click(object sender, EventArgs e)
+{
+    *//*            Dictionary<string, string> areas = connection.GetAllAreas();
+
+                foreach (KeyValuePair<string, string> kvp in areas)
+                {
+                    MessageBox.Show(String.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
+                }*/
+
+/*            List<Flight> flights = connection.GetAllFlights();
+
+            foreach (Flight flight in flights)
+            {
+                MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", flight.flightID, flight.origin, flight.destination, flight.airline, flight.seatsAvailable, flight.price, flight.flightDateTime));
+            }*/
+
+/*            List<Ticket> tickets = connection.GetAllTickets();
+
+            foreach (Ticket ticket in tickets)
+            {
+                MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", ticket.ticketID, ticket.firstName, ticket.lastName, ticket.hashedCardNumber, ticket.collected, ticket.flightID, ticket.bookedSeats));*//*
+            }
+
+        *//*            List<string> airlines = connection.GetAllAirlines();
+
+                    foreach (string airline in airlines)
+                    {
+                        MessageBox.Show(airline);
+                    }*//*
+
+                    List<Flight> flights = connection.GetMatchingFlights("bali", "london", new DateTime(2017, 10, 10));
+
+                    foreach (Flight flight in flights)
+                    {
+                        MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", flight.flightID, flight.origin, flight.destination, flight.airline, flight.seatsAvailable, flight.price, flight.flightDateTime));
+                    }
+
+        }*/

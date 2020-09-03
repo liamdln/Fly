@@ -8,8 +8,8 @@ namespace Fly
     public partial class BookingForm : Form
     {
 
-        //vars
-        MySqlConnection connection;
+/*        //vars
+       MySqlConnection connection;
         MySqlDataReader Reader;
         string DateOfFlight;
         string dateFromDB;
@@ -22,31 +22,72 @@ namespace Fly
         string WinningDestination;
         bool FlightConnection = false;
         string dropdown_originText;
-        string dropdown_destinationText;
+        string dropdown_destinationText;*/
+
 
         MenuForm menuForm;
+        DBConnection connection = new DBConnection();
+        List<string> originList;
+        List<string> destList;
 
         public BookingForm(MenuForm menuForm)
         {
             InitializeComponent();
             this.menuForm = menuForm;
+
+            destList = new List<string>();
+            originList = new List<string>();
+        }
+
+        private void form_book_Load(object sender, EventArgs e)
+        {
+            PopulateSourceLists();
+            DestinationDropDown.DataSource = destList;
+            OriginDropDown.DataSource = originList;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            this.menuForm.Show();
-            this.Close();
-
-
+            menuForm.Show();
+            Close();
         }
-        private void btn_search_Click(object sender, EventArgs e)
+
+        private void PopulateSourceLists()
         {
 
+            Dictionary<string, string> areas = connection.GetAllAreas();
+
+            foreach (KeyValuePair<string, string> kvp in areas)
+            {
+                foreach (string city in kvp.Value.Split(','))
+                {
+
+                    originList.Add(String.Format("{0}, {1}", city, kvp.Key));
+                    destList.Add(String.Format("{0}, {1}", city, kvp.Key));
+
+                }
+            }
+
+        }
+
+        private void OriginDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //remove the item selected from the other list, we don't want people to book from London to London
+        }
+
+        private void DestinationDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //same as above
+        }
+
+        private void btn_search_Click(object sender, EventArgs e)
+        {
+/*
             if (roundTwo == false)
             {
 
-                dropdown_originText = dropdown_origin.Text;
-                dropdown_destinationText = dropdown_destination.Text;
+                dropdown_originText = OriginDropDown.Text;
+                dropdown_destinationText = DestinationDropDown.Text;
 
             }
 
@@ -137,7 +178,7 @@ namespace Fly
 
                     //open the new form
                     Reader.Close();
-                    BookingListForm DBList = new BookingListForm(connection, DateOfFlight, dropdown_origin.Text, dropdown_destination.Text, "");
+                    BookingListForm DBList = new BookingListForm(connection, DateOfFlight, OriginDropDown.Text, DestinationDropDown.Text, "");
                     Hide();
                     DBList.Show();
 
@@ -148,7 +189,7 @@ namespace Fly
                     //MessageBox.Show(WinningDestination);
                     //open the new form
                     Reader.Close();
-                    BookingListForm DBList = new BookingListForm(connection, DateOfFlight, dropdown_origin.Text, dropdown_destination.Text, WinningDestination);
+                    BookingListForm DBList = new BookingListForm(connection, DateOfFlight, OriginDropDown.Text, DestinationDropDown.Text, WinningDestination);
                     Hide();
                     DBList.Show();
 
@@ -166,124 +207,7 @@ namespace Fly
 
                 MessageBox.Show("Please full out all the requested information.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            }
+            }*/
         }
-
-        private void form_book_Load(object sender, EventArgs e)
-        {
-
-            //switch table
-            DBConnect("*", "flights", false, "");
-            GetFlightInfo();
-
-        }
-
-        public void DBConnect(string selectString, string tableString, bool customQuery, string otherQuery)
-        {
-
-            //set up database connection properties
-            string server = "127.0.0.1"; //LOCAL SERVER, 127.0.0.1
-            string database = "flydb"; //database name
-            string uid = "flyProgram"; //uid for program
-            string password = "local123!"; //password for program
-            string ConnectionProperties = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";"; //set the properties
-            string query = "";
-
-            connection = new MySqlConnection(ConnectionProperties);
-            OpenConnection(connection);
-
-            if (!customQuery)
-            {
-
-                //query string 
-                query = "SELECT " + selectString + " FROM " + tableString;
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                Reader = cmd.ExecuteReader();
-
-            }
-            else
-            {
-
-                query = otherQuery;
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.ExecuteNonQuery();
-
-            }
-
-        }
-        private bool OpenConnection(MySqlConnection connection)
-        {
-            try
-            {
-
-                connection.Open();
-                return true;
-
-            }
-            catch (MySqlException exception)
-            {
-
-                //this shouldn't ever happen
-                switch (exception.Number)
-                {
-                    case 1042: //server isn't talking to us
-                        MessageBox.Show("Cannot contact database server. Please contact a member of staff.", "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        badDB = true;
-                        break;
-
-                    case 1045: //wrong username or password
-                        MessageBox.Show("The database credentials are incorrect. Please contact a member of staff.", "Credential error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        badDB = true;
-                        break;
-
-                    default: //we don't know what the error is
-                        MessageBox.Show("An unknown error occurred. Please contact a member of staff.", "Unknown error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        badDB = true;
-                        break;
-
-                        //this is used to get the error codes.
-                        //string code = exception.Number.ToString();
-                        //MessageBox.Show(code);
-
-                }
-
-                while (badDB)
-                {
-
-                    MessageBox.Show("There is an error with this terminal. This error will persist until the terminal is fixed. Please use another terminal.", "Fatal Terminal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-
-                return false;
-
-            }
-
-        }
-
-        private void GetFlightInfo()
-        {
-
-            while (Reader.Read())
-            {
-
-                //get the origin and destination for the flights
-                if (!dropdown_origin.Items.Contains(Reader["origin"]))
-                {
-
-                    dropdown_origin.Items.Add(Reader["origin"]);
-
-                }
-                if (!dropdown_destination.Items.Contains(Reader["destination"]))
-                {
-
-                    dropdown_destination.Items.Add(Reader["destination"]);
-
-                }
-
-            }
-
-            connection.Close();
-        }
-
     }
 }

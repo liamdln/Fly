@@ -203,12 +203,12 @@ namespace Fly
             //send the data to the database
             string query = "INSERT INTO tickets (ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook) VALUES ('" + txtBox_ticketNumber.Text + "', '" + txtBox_firstName.Text + "', '" + txtBox_lastName.Text + "', '" + encryptedCardNo + "', '" + collected + "', '" + flightNo + "', '" + seatsAvailable + "')";
             BookingForm bookForm = new BookingForm(new MenuForm());
-            bookForm.DBConnect("", "", true, query);
+/*            bookForm.DBConnect("", "", true, query);*/
 
             int numSeats = Convert.ToInt32(seatsAvailable);
 
             query = "UPDATE flights SET seatsAvailable = '" + (numSeats - 1).ToString() + "' WHERE flightID = '" + flightNo + "'";
-            bookForm.DBConnect("", "", true, query);
+/*            bookForm.DBConnect("", "", true, query);*/
 
         }
 
