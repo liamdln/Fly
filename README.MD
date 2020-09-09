@@ -32,6 +32,7 @@ Areas of the program I need to clean up that don't fit under a heading:
 * Disallow users to select the same origin and destination.
 * If no flights on a date, suggest more dates.
 * Get flight connections working.
+* Allow the user to select an airline preference when choosing a date, origin and destination.
 
 ### General Clean Up
 I wrote this when I was new to programming, so I have not followed any coding conventions. I will try to clean up the code as I go along.
