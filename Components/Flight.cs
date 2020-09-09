@@ -2,7 +2,7 @@
 
 namespace Fly
 {
-    class Flight
+    public class Flight
     {
         public Flight(int flightID, string origin, string destination, string airline, int seatsAvailable, double price, DateTime flightDateTime)
         {

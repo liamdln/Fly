@@ -1,5 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Fly
@@ -7,27 +7,38 @@ namespace Fly
     public partial class BookingListForm : Form
     {
 
-        //declare variables for all methods
-        MySqlConnection connectionString;
-        string flightDate;
-        string selectedOrigin;
-        string selectedDest;
-        string flightID = "";
-        string seatsAvailable = "";
-        string[] flightInfoArray;
-        BookingForm BookingForm = new BookingForm(new MenuForm());
-        string FlightConnections = "";
+        private bool _showDetails = true;
+        private DBConnection _database = new DBConnection();
+        private readonly List<Flight> _matchingFlights;
+        private readonly BookingForm _bookingForm;
+        private readonly string[] _userChoices;
 
-        public BookingListForm(MySqlConnection connection, string DateOfFlight, string origin, string destination, string connections)
+        public BookingListForm(List<Flight> matchingFlights, BookingForm bookingForm, string[] userChoices)
         {
             InitializeComponent();
+            _matchingFlights = matchingFlights;
+            _bookingForm = bookingForm;
+            _userChoices = userChoices;
+        }
 
-            //grab variables form the last form
-            connectionString = connection;
-            flightDate = DateOfFlight;
-            selectedOrigin = origin;
-            selectedDest = destination;
-            FlightConnections = connections;
+
+        private void ToggleDetails()
+        {
+
+            _showDetails = !_showDetails;
+            //hide the controls
+            if (_showDetails)
+            {
+                groupbox_flight.Show();
+                btn_book.Text = "Book selected flight";
+                btn_book.Enabled = true;
+            }
+            else
+            {
+                groupbox_flight.Hide();
+                btn_book.Text = "Please select a time to book a flight.";
+                btn_book.Enabled = false;
+            }
 
         }
 
@@ -35,15 +46,18 @@ namespace Fly
         {
 
             //hide all the details for selected flight until a time is selected
-            HideShow("hide");
+            ToggleDetails();
 
-            //query
-            string query = ("SELECT * FROM flights");
+            foreach (var flight in _matchingFlights)
+            {
+                FlightTimesDropDown.Items.Add(flight.flightDateTime.TimeOfDay);
+            }
 
-            //declare reader
-            MySqlCommand cmd = new MySqlCommand(query, connectionString);
-            MySqlDataReader Reader = cmd.ExecuteReader();
+            lbl_from.Text = $@"Origin: {_userChoices[0]}";
+            lbl_to.Text = $@"Destination: {_userChoices[1]}";
+            lbl_date.Text = $@"Date: {_userChoices[2]}";
 
+/*
             //set all the data to the variables in th program
             while (Reader.Read())
             {
@@ -81,44 +95,46 @@ namespace Fly
 
             lbl_date.Text = ("Date: " + flightDate);
             lbl_from.Text = ("Origin: " + selectedOrigin);
-            lbl_to.Text = ("Destination: " + selectedDest);
+            lbl_to.Text = ("Destination: " + selectedDest);*/
 
         }
 
-        private void HideShow(string hideOrShow)
-        {
-            //hide the controls
-            if (hideOrShow.Equals("hide"))
-            {
-
-                groupbox_flight.Hide();
-                btn_book.Text = "Please select a time to book a flight.";
-                btn_book.Enabled = false;
-
-            }
-            else if (hideOrShow.Equals("show"))//show the controls
-            {
-
-                groupbox_flight.Show();
-                btn_book.Text = "Book selected flight";
-                btn_book.Enabled = true;
-
-            }
-
-        }
 
         private void dropdown_times_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
             //show the controls
-            HideShow("show");
+            ToggleDetails();
+
+            int flightIndex = FlightTimesDropDown.SelectedIndex;
+            
+            //change all the values in the info box
+            //$ for string interpolation, @ to tell compiler to ignore escape characters (e.g. \n)
+            lbl_flightno.Text = $@"Flight ID: #{_matchingFlights[flightIndex].flightID}";
+            lbl_origin.Text = $@"Flight Origin: {_matchingFlights[flightIndex].origin}";
+            lbl_destination.Text = $@"Flight destination: {_matchingFlights[flightIndex].destination}";
+            lbl_seatsAvailable.Text = $@"Seats available: {_matchingFlights[flightIndex].seatsAvailable}" ;
+            lbl_price.Text = $@"Price: £{_matchingFlights[flightIndex].price}";
+            lbl_avAirline.Text = $@"Airline: {_matchingFlights[flightIndex].airline}";
+            lbl_avDate.Text = $@"Date: {_matchingFlights[flightIndex].flightDateTime}";
+            
+            //user selected items
+            // in future, selecting an airline on the booking form will be a feature so will be populated when
+            // the user enters this form, like the user's desired origin, destination and time.
+            lbl_airline.Text = $@"Airline: {_matchingFlights[flightIndex].airline}";
+
+
+
+/*
+            //show the controls
+            ToggleDetails();
 
             //get all the flight info from the db
             //query
             string query = ("SELECT * FROM flights");
 
             //connect to db
-/*            BookingForm.DBConnect("*", "flights", false, "");*/
+*/ /*            BookingForm.DBConnect("*", "flights", false, "");*/ /*
 
             //declare reader
             MySqlCommand cmd = new MySqlCommand(query, connectionString);
@@ -208,14 +224,14 @@ namespace Fly
 
             }
 
-            Reader.Close();
+            Reader.Close();*/
 
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
 
-            BookingForm.Show();
+            _bookingForm.Show();
             Close();
 
         }
@@ -223,9 +239,9 @@ namespace Fly
         private void btn_book_Click(object sender, EventArgs e)
         {
 
-            SearchTicketForm details = new SearchTicketForm("listBookingForm", flightID, seatsAvailable, flightInfoArray);
+/*            SearchTicketForm details = new SearchTicketForm("listBookingForm", flightID, seatsAvailable, flightInfoArray);
             details.Show();
-            Close();
+            Close();*/
 
         }
     }

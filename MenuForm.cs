@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Fly
@@ -7,18 +6,18 @@ namespace Fly
     public partial class MenuForm : Form
     {
 
-        private bool bookClicked;
-        private bool collectClicked;
+        private bool _bookClicked;
+        private bool _collectClicked;
 
         public MenuForm()
         {
             InitializeComponent();
             //check if a button is clicked once. This is so that the text is displayed after one click
-            this.bookClicked = false;
-            this.collectClicked = false;
+            _bookClicked = false;
+            _collectClicked = false;
         }
 
-        public void ClearText()
+        private void ClearText()
         {
 
             //set the picture for the ticket collection
@@ -28,21 +27,21 @@ namespace Fly
             ResetImage("data/images/book_ticket.png");
 
             //make sure none of the buttons are active
-            this.bookClicked = false;
-            this.collectClicked = false;
+            _bookClicked = false;
+            _collectClicked = false;
 
         }
 
-        private void ResetImage(string imageURL)
+        private void ResetImage(string imageUrl)
         {
 
             PictureBox picboxReference;
 
-            if (imageURL.ToLower().Contains("book"))
+            if (imageUrl.ToLower().Contains("book"))
             {
                 picboxReference = btnBookTicket;
             }
-            else if (imageURL.ToLower().Contains("collect"))
+            else if (imageUrl.ToLower().Contains("collect"))
             {
                 picboxReference = btnCollectTicket;
             }
@@ -51,13 +50,13 @@ namespace Fly
                 picboxReference = picboxLogo;
             }
 
-            picboxReference.ImageLocation = imageURL;
+            picboxReference.ImageLocation = imageUrl;
             picboxReference.SizeMode = PictureBoxSizeMode.CenterImage;
             picboxReference.SizeMode = PictureBoxSizeMode.Zoom;
 
         }
 
-        public void Menu_Load(object sender, EventArgs e)
+        private void Menu_Load(object sender, EventArgs e)
         {
 
             //set the logo in the picture box
@@ -71,9 +70,9 @@ namespace Fly
         private void pb_book_Click(object sender, EventArgs e)
         {
 
-            collectClicked = false;
+            _collectClicked = false;
 
-            if (bookClicked == false)
+            if (_bookClicked == false)
             {
 
                 //clear the pictures
@@ -81,13 +80,13 @@ namespace Fly
 
                 //change the picture
                 ResetImage("data/images/book_ticketTXT.png");
-                bookClicked = true;
+                _bookClicked = true;
 
             }
             else
             {
 
-                BookingForm bookingForm = new BookingForm(this);
+                var bookingForm = new BookingForm(this);
                 bookingForm.Show();
                 ClearText();
                 this.Hide();
@@ -99,9 +98,9 @@ namespace Fly
         private void pb_ticket_collect_Click(object sender, EventArgs e)
         {
 
-            bookClicked = false;
+            _bookClicked = false;
 
-            if (collectClicked == false)
+            if (_collectClicked == false)
             {
 
                 //clear the pictures
@@ -109,13 +108,13 @@ namespace Fly
 
                 //change the picture
                 ResetImage("data/images/collect_ticketTXT.png");
-                collectClicked = true;
+                _collectClicked = true;
 
             }
             else
             {
 
-                CollectTicketForm collectTicket = new CollectTicketForm(this);
+                var collectTicket = new CollectTicketForm(this);
                 collectTicket.Show();
                 ClearText();
                 this.Hide();
@@ -124,47 +123,3 @@ namespace Fly
         }
     }
 }
-
-
-// TESTING =====================================================================================================
-
-// DBConnection connection = new DBConnection();
-
-/*private void button1_Click(object sender, EventArgs e)
-{
-    *//*            Dictionary<string, string> areas = connection.GetAllAreas();
-
-                foreach (KeyValuePair<string, string> kvp in areas)
-                {
-                    MessageBox.Show(String.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value));
-                }*/
-
-/*            List<Flight> flights = connection.GetAllFlights();
-
-            foreach (Flight flight in flights)
-            {
-                MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", flight.flightID, flight.origin, flight.destination, flight.airline, flight.seatsAvailable, flight.price, flight.flightDateTime));
-            }*/
-
-/*            List<Ticket> tickets = connection.GetAllTickets();
-
-            foreach (Ticket ticket in tickets)
-            {
-                MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", ticket.ticketID, ticket.firstName, ticket.lastName, ticket.hashedCardNumber, ticket.collected, ticket.flightID, ticket.bookedSeats));*//*
-            }
-
-        *//*            List<string> airlines = connection.GetAllAirlines();
-
-                    foreach (string airline in airlines)
-                    {
-                        MessageBox.Show(airline);
-                    }*//*
-
-                    List<Flight> flights = connection.GetMatchingFlights("bali", "london", new DateTime(2017, 10, 10));
-
-                    foreach (Flight flight in flights)
-                    {
-                        MessageBox.Show(String.Format("{0} {1} {2} {3} {4} {5}, {6}", flight.flightID, flight.origin, flight.destination, flight.airline, flight.seatsAvailable, flight.price, flight.flightDateTime));
-                    }
-
-        }*/

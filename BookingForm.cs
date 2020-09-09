@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -25,45 +24,45 @@ namespace Fly
         string dropdown_destinationText;*/
 
 
-        MenuForm menuForm;
-        DBConnection connection = new DBConnection();
-        List<string> originList;
-        List<string> destList;
+        private readonly MenuForm _menuForm;
+        private readonly DBConnection _database = new DBConnection();
+        private readonly List<string> _originList;
+        private readonly List<string> _destList;
 
         public BookingForm(MenuForm menuForm)
         {
             InitializeComponent();
-            this.menuForm = menuForm;
+            _menuForm = menuForm;
 
-            destList = new List<string>();
-            originList = new List<string>();
+            _destList = new List<string>();
+            _originList = new List<string>();
         }
 
         private void form_book_Load(object sender, EventArgs e)
         {
             PopulateSourceLists();
-            DestinationDropDown.DataSource = destList;
-            OriginDropDown.DataSource = originList;
+            DestinationDropDown.DataSource = _destList;
+            OriginDropDown.DataSource = _originList;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            menuForm.Show();
+            _menuForm.Show();
             Close();
         }
 
         private void PopulateSourceLists()
         {
 
-            Dictionary<string, string> areas = connection.GetAllAreas();
+            var areas = _database.GetAllAreas();
 
-            foreach (KeyValuePair<string, string> kvp in areas)
+            foreach (var kvp in areas)
             {
-                foreach (string city in kvp.Value.Split(','))
+                foreach (var city in kvp.Value.Split(','))
                 {
 
-                    originList.Add(String.Format("{0}, {1}", city, kvp.Key));
-                    destList.Add(String.Format("{0}, {1}", city, kvp.Key));
+                    _originList.Add($"{city}, {kvp.Key}");
+                    _destList.Add($"{city}, {kvp.Key}");
 
                 }
             }
@@ -82,6 +81,40 @@ namespace Fly
 
         private void btn_search_Click(object sender, EventArgs e)
         {
+
+            //can clean this up, or make a method to get just the city.
+            var origin = OriginDropDown.Text.Split(',')[0].Replace(" ", "");
+            var destination = DestinationDropDown.Text.Split(',')[0].Replace(" ", "");
+            var date = flightDate.Value.Date;
+
+            if (!origin.Equals(destination))
+            {
+                var matchingFlights = _database.GetMatchingFlights(origin, destination, date);
+
+                if (matchingFlights.Count != 0)
+                {
+
+                    string[] userChoices = {origin, destination, date.ToString("dd-MM-yyyy")};
+                    var listFlights = new BookingListForm(matchingFlights, this, userChoices);
+                    listFlights.Show();
+                    Hide();
+
+                }
+                else
+                {
+                    //matchingFlights list has no values
+                    MessageBox.Show($@"No flights found from {origin} to {destination} on {date.ToString("dd MMMM yyyy")}.", @"No Flights", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+            } 
+            else
+            {
+                //origin == destination
+                MessageBox.Show(@"The origin and destination cannot be the same.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            
+
 /*
             if (roundTwo == false)
             {

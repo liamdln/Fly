@@ -1,6 +1,6 @@
 ﻿namespace Fly
 {
-    class Ticket
+    public class Ticket
     {
         public Ticket(int ticketID, string firstName, string lastName, string hashedCardNumber, bool collected, int flightID, int bookedSeats)
         {

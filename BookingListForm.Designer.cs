@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookingListForm));
             this.lbl_results = new System.Windows.Forms.Label();
             this.lbl_time = new System.Windows.Forms.Label();
-            this.dropdown_times = new System.Windows.Forms.ComboBox();
+            this.FlightTimesDropDown = new System.Windows.Forms.ComboBox();
             this.lbl_airline = new System.Windows.Forms.Label();
             this.lbl_date = new System.Windows.Forms.Label();
             this.lbl_from = new System.Windows.Forms.Label();
@@ -71,16 +71,16 @@
             this.lbl_time.TabIndex = 1;
             this.lbl_time.Text = "Select a time:";
             // 
-            // dropdown_times
+            // FlightTimesDropDown
             // 
-            this.dropdown_times.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dropdown_times.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dropdown_times.FormattingEnabled = true;
-            this.dropdown_times.Location = new System.Drawing.Point(17, 74);
-            this.dropdown_times.Name = "dropdown_times";
-            this.dropdown_times.Size = new System.Drawing.Size(169, 26);
-            this.dropdown_times.TabIndex = 2;
-            this.dropdown_times.SelectedIndexChanged += new System.EventHandler(this.dropdown_times_SelectedIndexChanged);
+            this.FlightTimesDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FlightTimesDropDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FlightTimesDropDown.FormattingEnabled = true;
+            this.FlightTimesDropDown.Location = new System.Drawing.Point(17, 74);
+            this.FlightTimesDropDown.Name = "FlightTimesDropDown";
+            this.FlightTimesDropDown.Size = new System.Drawing.Size(169, 26);
+            this.FlightTimesDropDown.TabIndex = 2;
+            this.FlightTimesDropDown.SelectedIndexChanged += new System.EventHandler(this.dropdown_times_SelectedIndexChanged);
             // 
             // lbl_airline
             // 
@@ -244,7 +244,7 @@
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // listingBookingForm
+            // BookingListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -258,12 +258,12 @@
             this.Controls.Add(this.lbl_from);
             this.Controls.Add(this.lbl_date);
             this.Controls.Add(this.lbl_airline);
-            this.Controls.Add(this.dropdown_times);
+            this.Controls.Add(this.FlightTimesDropDown);
             this.Controls.Add(this.lbl_time);
             this.Controls.Add(this.lbl_results);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "listingBookingForm";
+            this.Name = "BookingListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.listingBookingForm_Load);
             this.groupbox_flight.ResumeLayout(false);
@@ -277,7 +277,7 @@
 
         private System.Windows.Forms.Label lbl_results;
         private System.Windows.Forms.Label lbl_time;
-        private System.Windows.Forms.ComboBox dropdown_times;
+        private System.Windows.Forms.ComboBox FlightTimesDropDown;
         private System.Windows.Forms.Label lbl_airline;
         private System.Windows.Forms.Label lbl_date;
         private System.Windows.Forms.Label lbl_from;
