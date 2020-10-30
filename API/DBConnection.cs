@@ -1,10 +1,11 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Fly
 {
-    class DBConnection : IDBConnection
+    static class DBConnection
     {
 
         private const string DATABASE_URL = "127.0.0.1";
@@ -13,30 +14,29 @@ namespace Fly
         private const string DATABASE_UID = "bahrain-api";
         private const string DATABASE_PWD = "&#7goJk#!34ep@";
 
-        private string connectionString;
-        MySqlConnection connection;
+        private static string _connectionString = String.Format("server={0};port={1};database={2};uid={3};pwd={4};", DATABASE_URL, DATABASE_PORT, DATABASE_NAME, DATABASE_UID, DATABASE_PWD);
+        private static MySqlConnection _connection = new MySqlConnection(_connectionString);
 
-        public DBConnection()
+        private static MySqlDataReader ReadDatabase(string query)
         {
-            //server=localhost;port=3306;database=BahrainAPI;uid=bahrain-api;pwd=password;
-            this.connectionString = String.Format("server={0};port={1};database={2};uid={3};pwd={4};", DATABASE_URL, DATABASE_PORT, DATABASE_NAME, DATABASE_UID, DATABASE_PWD);
-            connection = new MySqlConnection(this.connectionString);
-        }
-
-        private MySqlDataReader pingDatabase(string query)
-        {
-            MySqlCommand getData = new MySqlCommand(query, this.connection);
+            MySqlCommand getData = new MySqlCommand(query, _connection);
             MySqlDataReader incomingDataReader = getData.ExecuteReader();
 
             return incomingDataReader;
         }
 
-        private bool OpenConnection()
+        private static int InsertIntoDatabase(string query)
+        {
+            MySqlCommand insertData = new MySqlCommand(query, _connection);
+            return insertData.ExecuteNonQuery();
+        }
+
+        private static bool OpenConnection()
         {
             try
             {
 
-                this.connection.Open();
+                _connection.Open();
                 return true;
 
             }
@@ -48,11 +48,11 @@ namespace Fly
             }
         }
 
-        public bool CloseConnection()
+        private static bool CloseConnection()
         {
             try
             {
-                this.connection.Close();
+                _connection.Close();
                 return true;
             }
             catch (MySqlException exception)
@@ -61,12 +61,18 @@ namespace Fly
             }
         }
 
-        public void CreateTicket(Dictionary<string, string> ticketInformation)
+        public static void CreateTicket(Ticket newTicket)
         {
-            throw new NotImplementedException();
+            OpenConnection();
+            const string TABLE = "tickets";
+            const string COLUMN_NAMES = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
+
+            string query = String.Format($"INSERT INTO {TABLE} ({COLUMN_NAMES}) VALUES {newTicket.TicketId}, {newTicket.FirstName}, {newTicket.LastName}, {newTicket.HashedCardNumber}, {newTicket.Collected}, {newTicket.BookedSeats}");
+            InsertIntoDatabase(query);
+            
         }
 
-        public List<string> GetAllAirlines()
+        public static List<string> GetAllAirlines()
         {
             OpenConnection();
             List<string> airlines = new List<string>();
@@ -75,7 +81,7 @@ namespace Fly
             const string DB_TABLE_NAME = "airlines";
 
             string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {
@@ -86,7 +92,7 @@ namespace Fly
             return airlines;
         }
 
-        public Dictionary<string, string> GetAllAreas()
+        public static Dictionary<string, string> GetAllAreas()
         {
 
             OpenConnection();
@@ -96,7 +102,7 @@ namespace Fly
             const string DB_TABLE_NAME = "areas";
 
             string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {
@@ -108,7 +114,7 @@ namespace Fly
 
         }
 
-        public List<Flight> GetAllFlights()
+        public static List<Flight> GetAllFlights()
         {
             OpenConnection();
             List<Flight> flights = new List<Flight>();
@@ -117,7 +123,7 @@ namespace Fly
             const string DB_TABLE_NAME = "flights";
 
             string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {
@@ -137,7 +143,7 @@ namespace Fly
             return flights;
         }
 
-        public List<Ticket> GetAllTickets()
+        public static List<Ticket> GetAllTickets()
         {
             OpenConnection();
             List<Ticket> tickets = new List<Ticket>();
@@ -146,12 +152,12 @@ namespace Fly
             const string DB_TABLE_NAME = "tickets";
 
             string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {
                 tickets.Add(new Ticket(
-                    (int)returnedData["ticketID"],
+                    (string)returnedData["ticketID"],
                     (string)returnedData["firstName"],
                     (string)returnedData["lastName"],
                     (string)returnedData["cardNumber"],
@@ -165,7 +171,7 @@ namespace Fly
             return tickets;
         }
 
-        public Flight GetFlightByID(int ID)
+        public static Flight GetFlightByID(int ID)
         {
             OpenConnection();
             Flight flightByID = null;
@@ -175,7 +181,7 @@ namespace Fly
             string DB_WHERE_CONDITION = String.Format("flightID = {0}", ID);
 
             string query = String.Format("SELECT {0} FROM {1} WHERE {2}", DB_SELECTION, DB_TABLE_NAME, DB_WHERE_CONDITION);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {
@@ -196,22 +202,22 @@ namespace Fly
 
         }
 
-        public Ticket GetTicketByID(int ID)
+        public static Ticket GetTicketByID(string Id)
         {
             OpenConnection();
             Ticket ticketByID = null;
 
             const string DB_SELECTION = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
             const string DB_TABLE_NAME = "tickets";
-            string DB_WHERE_CONDITION = String.Format("ticketID = {0}", ID);
+            string DB_WHERE_CONDITION = String.Format("ticketID = {0}", Id);
 
             string query = String.Format("SELECT {0} FROM {1} WHERE {2}", DB_SELECTION, DB_TABLE_NAME, DB_WHERE_CONDITION);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {
                 ticketByID = new Ticket(
-                    (int) returnedData["ticketID"],
+                    (string) returnedData["ticketID"],
                     (string) returnedData["firstName"],
                     (string) returnedData["lastName"],
                     (string) returnedData["cardNumber"],
@@ -225,17 +231,17 @@ namespace Fly
             return ticketByID;
         }
 
-        public void UpdateSeatsAvailable(int flightID)
+        public static void UpdateSeatsAvailable(int flightId)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateTicketCollectionStatus(int ticketID)
+        public static void UpdateTicketCollectionStatus(int ticketId)
         {
             throw new NotImplementedException();
         }
 
-        public List<Flight> GetMatchingFlights(string origin, string destination, DateTime date)
+        public static List<Flight> GetMatchingFlights(string origin, string destination, DateTime date)
         {
             OpenConnection();
             List<Flight> flights = new List<Flight>();
@@ -245,7 +251,7 @@ namespace Fly
             string DB_WHERE_CONDITION = String.Format("origin='{0}' AND destination='{1}' AND CAST(dateTime AS DATE) = '{2}'", origin, destination, date.ToString("yyyy-MM-dd"));
 
             string query = String.Format("SELECT {0} FROM {1} WHERE {2}", DB_SELECTION, DB_TABLE_NAME, DB_WHERE_CONDITION);
-            MySqlDataReader returnedData = pingDatabase(query);
+            MySqlDataReader returnedData = ReadDatabase(query);
 
             while (returnedData.Read())
             {

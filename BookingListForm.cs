@@ -67,11 +67,11 @@ namespace Fly
             //show the controls
             ToggleDetails();
 
-            _selectedFlight = (Flight)FlightTimesDropDown.SelectedItem;
+            _selectedFlight = _matchingFlights[FlightTimesDropDown.SelectedIndex];
             
             //change all the values in the info box
             //$ for string interpolation, @ to tell compiler to ignore escape characters (e.g. \n)
-            lbl_flightno.Text = $@"Flight ID: #{_selectedFlight.FlightID}";
+            lbl_flightno.Text = $@"Flight ID: #{_selectedFlight.FlightId}";
             lbl_origin.Text = $@"Flight Origin: {_selectedFlight.Origin}";
             lbl_destination.Text = $@"Flight destination: {_selectedFlight.Destination}";
             lbl_seatsAvailable.Text = $@"Seats available: {_selectedFlight.SeatsAvailable}" ;

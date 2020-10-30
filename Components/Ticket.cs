@@ -2,18 +2,18 @@
 {
     public class Ticket
     {
-        public Ticket(int ticketID, string firstName, string lastName, string hashedCardNumber, bool collected, int flightID, int bookedSeats)
+        public Ticket(string ticketId, string firstName, string lastName, string hashedCardNumber, bool collected, int flightID, int bookedSeats)
         {
-            this.TicketID = ticketID;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.HashedCardNumber = hashedCardNumber;
-            this.Collected = collected;
-            this.FlightID = flightID;
-            this.BookedSeats = bookedSeats;
+            TicketId = ticketId;
+            FirstName = firstName;
+            LastName = lastName;
+            HashedCardNumber = hashedCardNumber;
+            Collected = collected;
+            FlightID = flightID;
+            BookedSeats = bookedSeats;
         }
 
-        public int TicketID { get; set; }
+        public string TicketId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string HashedCardNumber { get; set; }
