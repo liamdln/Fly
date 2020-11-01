@@ -50,10 +50,9 @@ namespace Fly
         private void btn_saveTicket_Click(object sender, EventArgs e)
         {
 
-            bool validCardNo = Int64.TryParse(txtBox_cardNumber.Text, out Int64 cardNumber);
+            UserCard card = new UserCard(txtBox_cardNumber.Text);
 
-            //check the card number is valid
-            if (txtBox_cardNumber.TextLength != 16 || !validCardNo)
+            if (!card.IsValid)
             {
                 MessageBox.Show("Card number is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -61,7 +60,7 @@ namespace Fly
             {
 
                 //encrypt the card number and pass it onto the updatedb sub
-                Ticket newTicket = new Ticket(txtBox_firstName.Text, txtBox_lastName.Text, Cipher.Encrypt(cardNumber.ToString()), DEFAULT_COLLECTED_VALUE, _selectedFlight.FlightId, _selectedFlight.SeatsAvailable);
+                Ticket newTicket = new Ticket(txtBox_firstName.Text, txtBox_lastName.Text, Cipher.Encrypt(txtBox_cardNumber.Text), DEFAULT_COLLECTED_VALUE, _selectedFlight.FlightId, _selectedFlight.SeatsAvailable);
                 int ticketId = DBConnection.CreateTicket(newTicket);
 
                 DisplayId displayId = new DisplayId(ticketId);
