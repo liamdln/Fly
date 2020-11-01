@@ -4,18 +4,18 @@ namespace Fly
 {
     public class Flight
     {
-        public Flight(int flightID, string origin, string destination, string airline, int seatsAvailable, double price, DateTime flightDateTime)
+        public Flight(int flightId, string origin, string destination, string airline, int seatsAvailable, double price, DateTime flightDateTime)
         {
-            this.FlightID = flightID;
-            this.Origin = origin;
-            this.Destination = destination;
-            this.Airline = airline;
-            this.SeatsAvailable = seatsAvailable;
-            this.Price = price;
-            this.FlightDateTime = flightDateTime;
+            FlightId = flightId;
+            Origin = origin;
+            Destination = destination;
+            Airline = airline;
+            SeatsAvailable = seatsAvailable;
+            Price = price;
+            FlightDateTime = flightDateTime;
         }
 
-        public int FlightID { get; set; }
+        public int FlightId { get; set; }
         public string Origin { get; set; }
         public string Destination { get; set; }
         public string Airline { get; set; }

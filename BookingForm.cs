@@ -9,7 +9,6 @@ namespace Fly
 
 
         private readonly MenuForm _menuForm;
-        private readonly DBConnection _database = new DBConnection();
         private readonly List<string> _originList;
         private readonly List<string> _destList;
 
@@ -38,7 +37,7 @@ namespace Fly
         private void PopulateSourceLists()
         {
 
-            var areas = _database.GetAllAreas();
+            var areas = DBConnection.GetAllAreas();
 
             foreach (var kvp in areas)
             {
@@ -73,7 +72,7 @@ namespace Fly
 
             if (!origin.Equals(destination))
             {
-                var matchingFlights = _database.GetMatchingFlights(origin, destination, date);
+                var matchingFlights = DBConnection.GetMatchingFlights(origin, destination, date);
 
                 if (matchingFlights.Count != 0)
                 {
