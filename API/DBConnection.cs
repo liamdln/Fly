@@ -19,16 +19,18 @@ namespace Fly
 
         private static MySqlDataReader ReadDatabase(string query)
         {
-            MySqlCommand getData = new MySqlCommand(query, _connection);
-            MySqlDataReader incomingDataReader = getData.ExecuteReader();
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
 
-            return incomingDataReader;
+            return reader;
         }
 
-        private static int InsertIntoDatabase(string query)
+        private static long InsertIntoDatabase(string query)
         {
-            MySqlCommand insertData = new MySqlCommand(query, _connection);
-            return insertData.ExecuteNonQuery();
+            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            cmd.ExecuteNonQuery();
+
+            return cmd.LastInsertedId;
         }
 
         private static bool OpenConnection()
@@ -36,6 +38,7 @@ namespace Fly
             try
             {
 
+                // create a connection pool instead of opening and closing connections.
                 _connection.Open();
                 return true;
 
@@ -61,15 +64,21 @@ namespace Fly
             }
         }
 
-        public static void CreateTicket(Ticket newTicket)
+        public static int CreateTicket(Ticket newTicket)
         {
             OpenConnection();
             const string TABLE = "tickets";
-            const string COLUMN_NAMES = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
+            const string COLUMN_NAMES = "firstName, lastName, cardNumber, collected, flightId, seatsOnBook";
 
-            string query = String.Format($"INSERT INTO {TABLE} ({COLUMN_NAMES}) VALUES {newTicket.TicketId}, {newTicket.FirstName}, {newTicket.LastName}, {newTicket.HashedCardNumber}, {newTicket.Collected}, {newTicket.BookedSeats}");
-            InsertIntoDatabase(query);
-            
+            int ticketCollected = newTicket.Collected ? 1 : 0;
+
+            string query = String.Format($"INSERT INTO {TABLE} ({COLUMN_NAMES}) VALUES ('{newTicket.FirstName}', '{newTicket.LastName}', '{newTicket.EncryptedCardNumber}', {ticketCollected}, {newTicket.FlightId}, {newTicket.BookedSeats});");
+            int ticketId = (int)InsertIntoDatabase(query);
+
+            CloseConnection();
+
+            return ticketId;
+
         }
 
         public static List<string> GetAllAirlines()
@@ -119,7 +128,7 @@ namespace Fly
             OpenConnection();
             List<Flight> flights = new List<Flight>();
 
-            const string DB_SELECTION = "flightID, origin, destination, airline, seatsAvailable, price, dateTime";
+            const string DB_SELECTION = "flightId, origin, destination, airline, seatsAvailable, price, dateTime";
             const string DB_TABLE_NAME = "flights";
 
             string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
@@ -129,7 +138,7 @@ namespace Fly
             {
 
                 flights.Add(new Flight(
-                    (int)returnedData["flightID"],
+                    (int)returnedData["flightId"],
                     (string)returnedData["origin"],
                     (string)returnedData["destination"],
                     (string)returnedData["airline"],
@@ -148,7 +157,7 @@ namespace Fly
             OpenConnection();
             List<Ticket> tickets = new List<Ticket>();
 
-            const string DB_SELECTION = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
+            const string DB_SELECTION = "firstName, lastName, cardNumber, collected, flightId, seatsOnBook";
             const string DB_TABLE_NAME = "tickets";
 
             string query = String.Format("SELECT {0} FROM {1}", DB_SELECTION, DB_TABLE_NAME);
@@ -157,12 +166,11 @@ namespace Fly
             while (returnedData.Read())
             {
                 tickets.Add(new Ticket(
-                    (string)returnedData["ticketID"],
                     (string)returnedData["firstName"],
                     (string)returnedData["lastName"],
                     (string)returnedData["cardNumber"],
                     (int)returnedData["collected"] == 1, //1 = true, 0 = false so if db val = 1 then it has been collected.
-                    (int)returnedData["flightID"],
+                    (int)returnedData["flightId"],
                     (int)returnedData["seatsOnBook"]
                     ));
             }
@@ -171,14 +179,14 @@ namespace Fly
             return tickets;
         }
 
-        public static Flight GetFlightByID(int ID)
+        public static Flight GetFlightById(int ID)
         {
             OpenConnection();
             Flight flightByID = null;
 
-            const string DB_SELECTION = "flightID, origin, destination, airline, seatsAvailable, price, dateTime";
+            const string DB_SELECTION = "flightId, origin, destination, airline, seatsAvailable, price, dateTime";
             const string DB_TABLE_NAME = "flights";
-            string DB_WHERE_CONDITION = String.Format("flightID = {0}", ID);
+            string DB_WHERE_CONDITION = String.Format("flightId = {0}", ID);
 
             string query = String.Format("SELECT {0} FROM {1} WHERE {2}", DB_SELECTION, DB_TABLE_NAME, DB_WHERE_CONDITION);
             MySqlDataReader returnedData = ReadDatabase(query);
@@ -187,7 +195,7 @@ namespace Fly
             {
 
                 flightByID = new Flight(
-                    (int) returnedData["flightID"],
+                    (int) returnedData["flightId"],
                     (string) returnedData["origin"],
                     (string) returnedData["destination"],
                     (string) returnedData["airline"],
@@ -202,14 +210,14 @@ namespace Fly
 
         }
 
-        public static Ticket GetTicketByID(string Id)
+        public static Ticket GetTicketById(int Id)
         {
             OpenConnection();
             Ticket ticketByID = null;
 
-            const string DB_SELECTION = "ticketID, firstName, lastName, cardNumber, collected, flightID, seatsOnBook";
+            const string DB_SELECTION = "firstName, lastName, cardNumber, collected, flightId, seatsOnBook";
             const string DB_TABLE_NAME = "tickets";
-            string DB_WHERE_CONDITION = String.Format("ticketID = {0}", Id);
+            string DB_WHERE_CONDITION = String.Format("ticketId = {0}", Id);
 
             string query = String.Format("SELECT {0} FROM {1} WHERE {2}", DB_SELECTION, DB_TABLE_NAME, DB_WHERE_CONDITION);
             MySqlDataReader returnedData = ReadDatabase(query);
@@ -217,12 +225,11 @@ namespace Fly
             while (returnedData.Read())
             {
                 ticketByID = new Ticket(
-                    (string) returnedData["ticketID"],
                     (string) returnedData["firstName"],
                     (string) returnedData["lastName"],
                     (string) returnedData["cardNumber"],
                     (int) returnedData["collected"] == 1, //1 = true, 0 = false so if db val = 1 then it has been collected.
-                    (int) returnedData["flightID"],
+                    (int) returnedData["flightId"],
                     (int) returnedData["seatsOnBook"]
                     );
             }
@@ -246,7 +253,7 @@ namespace Fly
             OpenConnection();
             List<Flight> flights = new List<Flight>();
 
-            const string DB_SELECTION = "flightID, origin, destination, airline, seatsAvailable, price, dateTime";
+            const string DB_SELECTION = "flightId, origin, destination, airline, seatsAvailable, price, dateTime";
             const string DB_TABLE_NAME = "flights";
             string DB_WHERE_CONDITION = String.Format("origin='{0}' AND destination='{1}' AND CAST(dateTime AS DATE) = '{2}'", origin, destination, date.ToString("yyyy-MM-dd"));
 
@@ -257,7 +264,7 @@ namespace Fly
             {
 
                 flights.Add(new Flight(
-                    (int)returnedData["flightID"],
+                    (int)returnedData["flightId"],
                     (string)returnedData["origin"],
                     (string)returnedData["destination"],
                     (string)returnedData["airline"],

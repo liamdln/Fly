@@ -123,6 +123,12 @@
     </Compile>
     <Compile Include="Components\Cipher.cs" />
     <Compile Include="Components\Flight.cs" />
+    <Compile Include="DisplayId.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayId.Designer.cs">
+      <DependentUpon>DisplayId.cs</DependentUpon>
+    </Compile>
     <Compile Include="SearchTicketForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,7 +136,6 @@
       <DependentUpon>SearchTicketForm.cs</DependentUpon>
     </Compile>
     <Compile Include="API\IAPIRequest.cs" />
-    <Compile Include="API\IDBConnection.cs" />
     <Compile Include="BookingListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CollectTicketForm.resx">
       <DependentUpon>CollectTicketForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayId.resx">
+      <DependentUpon>DisplayId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchTicketForm.resx">
       <DependentUpon>SearchTicketForm.cs</DependentUpon>

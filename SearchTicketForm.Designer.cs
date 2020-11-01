@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchTicketForm));
             this.lbl_detailsTitle = new System.Windows.Forms.Label();
-            this.lbl_ticketID = new System.Windows.Forms.Label();
-            this.txtBox_ticketNumber = new System.Windows.Forms.TextBox();
             this.lbl_firstName = new System.Windows.Forms.Label();
             this.lbl_lastName = new System.Windows.Forms.Label();
             this.lbl_cardNumber = new System.Windows.Forms.Label();
@@ -54,30 +52,12 @@
             this.lbl_detailsTitle.TabIndex = 0;
             this.lbl_detailsTitle.Text = "Please enter your details:";
             // 
-            // lbl_ticketID
-            // 
-            this.lbl_ticketID.AutoSize = true;
-            this.lbl_ticketID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_ticketID.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(213)))), ((int)(((byte)(224)))));
-            this.lbl_ticketID.Location = new System.Drawing.Point(12, 69);
-            this.lbl_ticketID.Name = "lbl_ticketID";
-            this.lbl_ticketID.Size = new System.Drawing.Size(76, 20);
-            this.lbl_ticketID.TabIndex = 1;
-            this.lbl_ticketID.Text = "Ticket ID:";
-            // 
-            // txtBox_ticketNumber
-            // 
-            this.txtBox_ticketNumber.Location = new System.Drawing.Point(158, 69);
-            this.txtBox_ticketNumber.Name = "txtBox_ticketNumber";
-            this.txtBox_ticketNumber.Size = new System.Drawing.Size(306, 20);
-            this.txtBox_ticketNumber.TabIndex = 1;
-            // 
             // lbl_firstName
             // 
             this.lbl_firstName.AutoSize = true;
             this.lbl_firstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_firstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(213)))), ((int)(((byte)(224)))));
-            this.lbl_firstName.Location = new System.Drawing.Point(12, 98);
+            this.lbl_firstName.Location = new System.Drawing.Point(12, 59);
             this.lbl_firstName.Name = "lbl_firstName";
             this.lbl_firstName.Size = new System.Drawing.Size(90, 20);
             this.lbl_firstName.TabIndex = 3;
@@ -88,7 +68,7 @@
             this.lbl_lastName.AutoSize = true;
             this.lbl_lastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_lastName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(213)))), ((int)(((byte)(224)))));
-            this.lbl_lastName.Location = new System.Drawing.Point(12, 124);
+            this.lbl_lastName.Location = new System.Drawing.Point(12, 85);
             this.lbl_lastName.Name = "lbl_lastName";
             this.lbl_lastName.Size = new System.Drawing.Size(90, 20);
             this.lbl_lastName.TabIndex = 4;
@@ -99,7 +79,7 @@
             this.lbl_cardNumber.AutoSize = true;
             this.lbl_cardNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_cardNumber.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(213)))), ((int)(((byte)(224)))));
-            this.lbl_cardNumber.Location = new System.Drawing.Point(12, 150);
+            this.lbl_cardNumber.Location = new System.Drawing.Point(12, 111);
             this.lbl_cardNumber.Name = "lbl_cardNumber";
             this.lbl_cardNumber.Size = new System.Drawing.Size(107, 20);
             this.lbl_cardNumber.TabIndex = 5;
@@ -107,21 +87,21 @@
             // 
             // txtBox_cardNumber
             // 
-            this.txtBox_cardNumber.Location = new System.Drawing.Point(158, 150);
+            this.txtBox_cardNumber.Location = new System.Drawing.Point(158, 111);
             this.txtBox_cardNumber.Name = "txtBox_cardNumber";
             this.txtBox_cardNumber.Size = new System.Drawing.Size(306, 20);
             this.txtBox_cardNumber.TabIndex = 4;
             // 
             // txtBox_lastName
             // 
-            this.txtBox_lastName.Location = new System.Drawing.Point(158, 124);
+            this.txtBox_lastName.Location = new System.Drawing.Point(158, 85);
             this.txtBox_lastName.Name = "txtBox_lastName";
             this.txtBox_lastName.Size = new System.Drawing.Size(306, 20);
             this.txtBox_lastName.TabIndex = 3;
             // 
             // txtBox_firstName
             // 
-            this.txtBox_firstName.Location = new System.Drawing.Point(158, 98);
+            this.txtBox_firstName.Location = new System.Drawing.Point(158, 59);
             this.txtBox_firstName.Name = "txtBox_firstName";
             this.txtBox_firstName.Size = new System.Drawing.Size(306, 20);
             this.txtBox_firstName.TabIndex = 2;
@@ -133,7 +113,7 @@
             this.btn_printTicket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_printTicket.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_printTicket.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(74)))), ((int)(((byte)(223)))));
-            this.btn_printTicket.Location = new System.Drawing.Point(158, 176);
+            this.btn_printTicket.Location = new System.Drawing.Point(158, 137);
             this.btn_printTicket.Name = "btn_printTicket";
             this.btn_printTicket.Size = new System.Drawing.Size(98, 55);
             this.btn_printTicket.TabIndex = 20;
@@ -148,7 +128,7 @@
             this.btn_saveTicket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_saveTicket.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_saveTicket.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(74)))), ((int)(((byte)(223)))));
-            this.btn_saveTicket.Location = new System.Drawing.Point(262, 176);
+            this.btn_saveTicket.Location = new System.Drawing.Point(262, 137);
             this.btn_saveTicket.Name = "btn_saveTicket";
             this.btn_saveTicket.Size = new System.Drawing.Size(98, 55);
             this.btn_saveTicket.TabIndex = 21;
@@ -163,7 +143,7 @@
             this.btn_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(74)))), ((int)(((byte)(223)))));
-            this.btn_cancel.Location = new System.Drawing.Point(366, 176);
+            this.btn_cancel.Location = new System.Drawing.Point(366, 137);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(98, 55);
             this.btn_cancel.TabIndex = 22;
@@ -171,12 +151,12 @@
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // form_details
+            // SearchTicketForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(502, 245);
+            this.ClientSize = new System.Drawing.Size(502, 209);
             this.ControlBox = false;
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_saveTicket);
@@ -187,12 +167,10 @@
             this.Controls.Add(this.lbl_cardNumber);
             this.Controls.Add(this.lbl_lastName);
             this.Controls.Add(this.lbl_firstName);
-            this.Controls.Add(this.txtBox_ticketNumber);
-            this.Controls.Add(this.lbl_ticketID);
             this.Controls.Add(this.lbl_detailsTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "form_details";
+            this.Name = "SearchTicketForm";
             this.Text = "form_details";
             this.Load += new System.EventHandler(this.form_details_Load);
             this.ResumeLayout(false);
@@ -203,8 +181,6 @@
         #endregion
 
         private System.Windows.Forms.Label lbl_detailsTitle;
-        private System.Windows.Forms.Label lbl_ticketID;
-        private System.Windows.Forms.TextBox txtBox_ticketNumber;
         private System.Windows.Forms.Label lbl_firstName;
         private System.Windows.Forms.Label lbl_lastName;
         private System.Windows.Forms.Label lbl_cardNumber;

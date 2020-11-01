@@ -2,23 +2,23 @@
 {
     public class Ticket
     {
-        public Ticket(string ticketId, string firstName, string lastName, string hashedCardNumber, bool collected, int flightID, int bookedSeats)
+        public Ticket(string firstName, string lastName, string encryptedCardNumber, bool collected, int flightId, int bookedSeats, int id = 0)
         {
-            TicketId = ticketId;
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
-            HashedCardNumber = hashedCardNumber;
+            EncryptedCardNumber = encryptedCardNumber;
             Collected = collected;
-            FlightID = flightID;
+            FlightId = flightId;
             BookedSeats = bookedSeats;
         }
 
-        public string TicketId { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string HashedCardNumber { get; set; }
+        public string EncryptedCardNumber { get; set; }
         public bool Collected { get; set; }
-        public int FlightID { get; set; }
+        public int FlightId { get; set; }
         public int BookedSeats { get; set; }
 
     }
